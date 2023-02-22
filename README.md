@@ -1,3 +1,3 @@
 # comic-go
 
-go rest api sumple
+go rest api sample
