@@ -8,5 +8,7 @@ import (
 
 // setRouter ルーティングをセット
 func SetRouter() {
-	http.HandleFunc("/test", controller.Hello)
+	http.HandleFunc("/test", controller.HelloController)
+
+	http.HandleFunc("/auth", controller.AuthController)
 }
