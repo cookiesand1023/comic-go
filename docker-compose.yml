@@ -7,8 +7,27 @@ services:
       dockerfile: Dockerfile
     volumes: # マウントディレクトリ
       - .:/go/src/app
+    environment:
+      - GO_ENV=docker
     tty: true # コンテナの永続化
     env_file: # .envファイル
       - .go_env
     ports:
       - 29000:8080
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mysql:8.0
+    volumes:
+      - data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_DATABASE=comic_go
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - 29001:3306
+
+volumes:
+  data:
