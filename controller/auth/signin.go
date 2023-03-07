@@ -3,6 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/comic-go/config/jwt"
 	errors "github.com/comic-go/entity"
 	"github.com/comic-go/model"
 	"golang.org/x/crypto/bcrypt"
@@ -48,6 +49,19 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return
 		}
+		return
+	}
+
+	// token再発行
+	newToken, err := jwt.CreateToken(user.Uuid)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("%s", err), http.StatusInternalServerError)
+		return
+	}
+
+	user, err = model.UpdateToken(user.Uuid, newToken)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("%s", err), http.StatusInternalServerError)
 		return
 	}
 
