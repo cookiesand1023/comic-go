@@ -16,7 +16,7 @@ func main() {
 
 	log.Printf("this environment is " + os.Getenv("GO_ENV"))
 	log.Printf("start go server")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":3200", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
