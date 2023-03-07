@@ -3,7 +3,7 @@ package jwt
 import (
 	"crypto/rsa"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 
@@ -14,17 +14,17 @@ import (
 var signKey *rsa.PrivateKey
 var verifyKey *rsa.PublicKey
 
-func CreateToken() (string, error) {
+func CreateToken(sub string) (string, error) {
 	claims := jwt.MapClaims{
-		"iss": "jwthost",
-		"sub": "user_id1234",
+		"iss": os.Getenv("JWT_ISS"),
+		"sub": sub,
 		"exp": time.Now().Add(time.Hour * 72).Unix(), // 72時間が有効期限
 	}
 
 	// ヘッダーとペイロード生成
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
 
-	signBytes, err := ioutil.ReadFile("jwt-key.pem")
+	signBytes, err := os.ReadFile("jwt-key.pem")
 	if err != nil {
 		return "", err
 	}
@@ -42,12 +42,12 @@ func CreateToken() (string, error) {
 
 func VerifyToken(tokenString string) (string, error) {
 
-	varifyBytes, err := ioutil.ReadFile("jwt-key-pub.pem")
+	verifyBytes, err := os.ReadFile("jwt-key-pub.pem")
 	if err != nil {
 		return "", err
 	}
 
-	verifyKey, err = jwt.ParseRSAPublicKeyFromPEM(varifyBytes)
+	verifyKey, err = jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
 	if err != nil {
 		return "", err
 	}
@@ -64,8 +64,6 @@ func VerifyToken(tokenString string) (string, error) {
 		// }
 		return verifyKey, nil
 	})
-
-	fmt.Println(token.Valid)
 
 	if !token.Valid {
 		fmt.Println("token is invalid")

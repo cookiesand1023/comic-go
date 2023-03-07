@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+var Db *gorm.DB
 
 func InitDatabase() (err error) {
 	connectInfo := fmt.Sprintf(
@@ -22,7 +22,7 @@ func InitDatabase() (err error) {
 	)
 
 	for i := 0; i < 10; i++ {
-		if db, err = gorm.Open(mysql.Open(connectInfo), &gorm.Config{}); err != nil {
+		if Db, err = gorm.Open(mysql.Open(connectInfo), &gorm.Config{}); err != nil {
 			time.Sleep(time.Second * 2)
 			log.Printf("retry...")
 			continue
@@ -37,5 +37,5 @@ func InitDatabase() (err error) {
 }
 
 func migrateDatabase() {
-	db.AutoMigrate(User{})
+	Db.AutoMigrate(User{})
 }

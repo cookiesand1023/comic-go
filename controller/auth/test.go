@@ -1,4 +1,4 @@
-package controller
+package auth
 
 import (
 	"fmt"
@@ -7,19 +7,19 @@ import (
 	"github.com/comic-go/config/jwt"
 )
 
-func AuthController(w http.ResponseWriter, r *http.Request) {
+func Test(w http.ResponseWriter, _ *http.Request) {
 
-	token, err := jwt.CreateToken()
+	token, err := jwt.CreateToken("subject")
 	if err != nil {
 		http.Error(w, fmt.Sprintf("%s", err), http.StatusInternalServerError)
 	}
 
-	user_name, err := jwt.VerifyToken(token)
+	userName, err := jwt.VerifyToken(token)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("%s", err), http.StatusInternalServerError)
 	}
 
-	_, err = fmt.Fprintln(w, "JWT Auth Complete!!"+user_name)
+	_, err = fmt.Fprintln(w, "JWT Auth Complete!!"+userName)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("%s", err), http.StatusInternalServerError)
 	}
