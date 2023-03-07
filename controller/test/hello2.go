@@ -2,9 +2,6 @@ package test
 
 import (
 	"encoding/json"
-	"fmt"
-	"io"
-	"log"
 	"net/http"
 )
 
@@ -17,14 +14,14 @@ type ItemParams struct {
 }
 
 func Hello2(w http.ResponseWriter, r *http.Request) {
-	reqBody, _ := io.ReadAll(r.Body)
+	//reqBody, _ := io.ReadAll(r.Body)
 	var item ItemParams
-	if err := json.Unmarshal(reqBody, &item); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(item.Age)
-
-	items = append(items, &item)
+	//if err := json.Unmarshal(reqBody, &item); err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Println(item.Age)
+	//
+	//items = append(items, &item)
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(item)
 	if err != nil {

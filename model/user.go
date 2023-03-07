@@ -32,3 +32,9 @@ func GetUserByUuid(uuid string) (user User, err error) {
 	err = Db.First(&user, "uuid = ?", uuid).Error
 	return user, err
 }
+
+func UpdateToken(uuid string, token string) (user User, err error) {
+	user = User{}
+	err = Db.First(&user, "uuid = ?", uuid).Update("id_token", token).Error
+	return user, err
+}
