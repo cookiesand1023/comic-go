@@ -37,5 +37,8 @@ func InitDatabase() (err error) {
 }
 
 func migrateDatabase() {
-	Db.AutoMigrate(User{})
+	err := Db.AutoMigrate(User{}, Comic{}, UserComic{})
+	if err != nil {
+		return
+	}
 }

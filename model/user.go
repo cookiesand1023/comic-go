@@ -6,13 +6,13 @@ import (
 
 type User struct {
 	gorm.Model
-	Name     string
-	Age      int
-	Sex      string
-	Email    string `gorm:"type:varchar(100);unique_index"`
-	Uuid     string `gorm:"type:varchar(100);unique_index"`
-	IdToken  string
-	Password string
+	Name     string `json:"name"`
+	Age      int    `json:"age"`
+	Sex      string `json:"sex"`
+	Email    string `gorm:"type:varchar(100);unique_index" json:"email"`
+	Uuid     string `gorm:"type:varchar(100);unique_index" json:"uuid"`
+	IdToken  string `json:"id_token"`
+	Password string `json:"password"`
 }
 
 func GetFirst() (user User, err error) {
