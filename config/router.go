@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/comic-go/controller/comic"
 	"net/http"
 
 	"github.com/comic-go/controller/auth"
@@ -24,8 +25,14 @@ func SetRouter() {
 	authRouter := r.PathPrefix("/auth").Subrouter()
 	authRouter.HandleFunc("/verify", auth.Verify).Methods("GET")
 
-	r.HandleFunc("/signup", auth.SignUp).Methods("POST")
+	r.HandleFunc("/signup", auth.SignUp)
 	r.HandleFunc("/signin", auth.SignIn)
+
+	r.HandleFunc("/comics", comic.GetAllComics).Methods("GET")
+	r.HandleFunc("/comic", comic.GetComicDetail).Methods("GET")
+
+	r.HandleFunc("/user_comic/is_read", comic.GetComicsIsRead).Methods("GET")
+	r.HandleFunc("/user_comic/register", comic.RegisterUserComicStatus)
 
 	http.Handle("/", r)
 }

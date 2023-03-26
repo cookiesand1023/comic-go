@@ -19,3 +19,8 @@ var PasswordInvalid = Error{
 	Message: "password is invalid",
 	Code:    1003,
 }
+
+var TypeInvalid = Error{
+	Message: "type is invalid",
+	Code:    1004,
+}
